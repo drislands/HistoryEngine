@@ -28,7 +28,13 @@ class Simulation {
         now = new Time(1,1)
 
         // Start the REPL.
+        println '===================='
+        println 'Simulation starting.'
+        println '===================='
         repl()
+        println '===================='
+        println 'Simulation ended.'
+        println '===================='
     }
 
     /**
@@ -99,11 +105,7 @@ class Simulation {
      * Advance {@link #now} by 1 month.
      */
     static void advance() {
-        now.month = now.month + 1
-        if(now.month > Time.MONTHS_PER_YEAR) {
-            now.year = now.year + 1
-            now.month = 1
-        }
+        now++
     }
 
     /**

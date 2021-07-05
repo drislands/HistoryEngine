@@ -1,5 +1,7 @@
 package com.islands.games.lifesim
 
+import com.islands.games.lifesim.exceptions.TimeException
+
 /**
  * Class representing...well, Time. As it passes and things happen.
  */
@@ -40,6 +42,37 @@ class Time {
      */
     String toString() {
         "month $month, of the year $year, of $age.name"
+    }
+
+    /**
+     * Advances this time by one month.
+     */
+    Time next() {
+        month += 1
+        if(month > MONTHS_PER_YEAR) {
+            year += 1
+            month -= MONTHS_PER_YEAR
+        }
+        return this
+    }
+
+    /**
+     * Adds a number of months to this Time.
+     * @param months The count of months to add.
+     * @return A new Time object in the future.
+     */
+    Time plus(int months) {
+        if(months < 0)
+            throw new TimeException('Cannot add negative months to a Time.')
+        Time newTime = this.clone() as Time
+        newTime.month += months
+
+        while(newTime.month > MONTHS_PER_YEAR) {
+            newTime.year += 1
+            newTime.month -= MONTHS_PER_YEAR
+        }
+
+        return newTime
     }
 
     /**

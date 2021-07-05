@@ -18,6 +18,10 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
+# Project ignores
+out/
+.idea/
+
 # =========================
 # Operating System Files
 # =========================

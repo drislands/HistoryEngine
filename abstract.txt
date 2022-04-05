@@ -1,0 +1,61 @@
+simulation
+* setup
+** initial details, given by user
+*** tribe count
+*** tribe names
+*** location
+*** threats/resources
+**** flora/fauna, metals, magic leylines (?)
+*** tribe affinities
+**** magic?
+**** tech?
+*** handicaps
+**** disallowed tech
+**** disallowed magic
+**** arbitrary bumps to mortality
+** other details, potentially given by config or by system defaults
+*** algorithms
+**** mortality
+**** tendency towards violence/peace
+**** tendency towards tech/creativity/magic
+* steps
+** as time passes, what changes automatically
+*** mortality is calculated
+**** takes tech/magic/threats/resources into effect
+*** environment changes
+**** some threats get worse/better
+**** some resources are depleted
+**** world itself potentially changes
+***** volcano/flood/etc
+*** tribes interact
+**** trade of resources
+**** war/diplomacy
+**** no inter-tribe breeding allowed (ease of simulation)
+* user updates
+** after the initial setup and N steps, what new information does the user provide?
+*** rename tribe
+*** grant technology/magic?
+*** running config changes
+**** new tribe?
+***** and all the details that implies, from above
+**** new resources/threats
+**** on-demand natural disasters
+**** taking away tech/magic?
+* presenting information
+** at beginning, and as time goes on, give information about the current state to the user
+*** at beginning: confirmation of given details and config details
+**** give estimated mortality calc for tribes based on tech/handicaps/etc
+*** as time goes on:
+**** tribe info
+***** pop/name/mortality/relationships/tech/magic
+**** threat/resource info
+***** amount/locations/afflicted tribes
+**** world info
+***** date
+***** advancement of mega-calamities
+****** global warming, lich, dragons, etc
+* data storage
+** exists in memory
+*** adjacency table for related information
+** stored in database
+*** relational database

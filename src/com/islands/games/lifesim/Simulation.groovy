@@ -7,6 +7,8 @@ import com.islands.games.lifesim.exceptions.UserQuittingException
  * General class for starting and manipulating the Simulation.
  */
 class Simulation {
+    // Number of years in a human generation.
+    static YEARS_PER_GENERATION = 20
     // Time object tracking when "now" is.
     static Time now
     // List of valid commands that can be given in CLI mode.

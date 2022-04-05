@@ -2,7 +2,11 @@ package com.islands.games.lifesim
 
 import com.islands.games.lifesim.society.Tribe
 import com.islands.games.lifesim.society.TribeManager
+import com.islands.games.lifesim.threats.ThreatManager
 
+/**
+ * Management class for REST endpoints and the method calls they will make.
+ */
 class EndpointManager {
     /**
      * Gets initial details as given by the user. Takes a JSON payload and turns that into actual info.
@@ -24,8 +28,8 @@ class EndpointManager {
         payload.resources.each { Map r ->
             // Each resource has a name, location.
             ResourceManager.addResource(r.name,r.location)
+            // TODO: ResourceManager and Resource class
         }
-        // TODO: How do we set which tribes are affected by each threat/resource?
     }
 
     /**

@@ -2,6 +2,7 @@ package com.islands.games.lifesim
 
 import com.islands.games.lifesim.Time.Age
 import com.islands.games.lifesim.exceptions.UserQuittingException
+import com.islands.games.lifesim.life.Person
 import com.islands.games.lifesim.society.TribeManager
 
 /**
@@ -27,6 +28,7 @@ class Simulation {
             'advance',
             'quit',
             'debug',
+            'TEST',
             'now'
     ]
 
@@ -111,6 +113,20 @@ class Simulation {
     //////////////////
     /// REPL Commands
     //////////////////
+
+    // TODO: TEMPORARY
+    static void TEST(ArrayList<String> words) {
+        int offset = words.first() as int
+
+        Person p = new Person(now.get(),offset)
+        p.tribe = TribeManager.TRIBES[0]
+
+        float mortality = p.getMortality()
+
+        println "Mortality checked: $mortality"
+    }
+    // TODO: TEMPORARY
+
     /**
      * Command to make
      * TODO: Make what? An Age? Person? Need to define
@@ -233,9 +249,13 @@ class Simulation {
     static void advance(ArrayList<String> months) {
         def m = months.first() as int
         println "Advancing $m months..."
+        println ""
         m.times {
+            print "."
             advance(false)
         }
+        println ""
+        println "Done."
     }
 
     /**

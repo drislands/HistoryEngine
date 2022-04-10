@@ -123,7 +123,7 @@ class TribeManager {
             DBG "Total of ${breedableFemales.size()} female member(s) for breeding"
 
             breedableFemales.each { female ->
-                if(female.checkFecundity()) {
+                if(female.checkFecundity() && breedableMales.size() > 0) {
                     DBG "> fecundity check passed, making baby"
                     // TODO: make this a part of the Tribe logic
                     int maleIndex = maleChooser.nextInt() % breedableMales.size()
@@ -137,6 +137,15 @@ class TribeManager {
     }
 
     static void killPeople() {
-        DBG "Here is where i'd kill you...if i were ready"
+        DBG "time for murderin"
+        TRIBES.each { tribe ->
+            DBG "tribe: $tribe.name"
+            tribe.livingMembers.each { p ->
+                if(p.checkDeadification()) {
+                    DBG "death, age $p.age"
+                    p.kill()
+                }
+            }
+        }
     }
 }

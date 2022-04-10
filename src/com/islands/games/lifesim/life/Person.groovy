@@ -14,9 +14,11 @@ class Person extends Organism implements Sexual {
             println "DEBUG: $msg"
     }
 
-    final static Tuple<Integer> AGE_OF_HEALTH = new Tuple(10 * Time.MONTHS_PER_YEAR,18 * Time.MONTHS_PER_YEAR)
+    final static Tuple<Integer> AGE_OF_HEALTH = new Tuple(
+            10 * Time.MONTHS_PER_YEAR,
+            18 * Time.MONTHS_PER_YEAR)
     final static int AGE_OF_ADULTHOOD = 18 * Time.MONTHS_PER_YEAR
-    final static int AGE_OF_ELDERHOOD = 60 * Time.MONTHS_PER_YEAR
+    final static int AGE_OF_ELDERHOOD = 45 * Time.MONTHS_PER_YEAR
     final static int BIRTH_COOLDOWN_PERIOD = 1 * Time.MONTHS_PER_YEAR
 
     Time lastBirth = null
@@ -55,7 +57,16 @@ class Person extends Organism implements Sexual {
      * @return
      */
     float getMortality() {
+        float mortality
+        if(age < (AGE_OF_HEALTH[0] as int)) {
+            mortality = tribe.getYoungerMortality(this)
+        } else if(age > (AGE_OF_HEALTH[1] as int)) {
+            mortality = tribe.getOlderMortality(this)
+        } else {
+            mortality = 0f
+        }
 
+        mortality + tribe.tribeMortality
     }
 
     int getAge() {
@@ -88,5 +99,10 @@ class Person extends Organism implements Sexual {
     boolean checkFecundity() {
         // TODO: Almost definitely will need serious tweaking and consideration
         Math.abs(sexRandomizer.nextInt()) % 100 < tribe.birthRate
+    }
+
+    boolean checkDeadification() {
+        // TODO: better name
+        Math.abs(sexRandomizer.nextInt()) % 10000 < ((getMortality() * 100 ) )
     }
 }

@@ -35,7 +35,7 @@ class Tribe implements Serializable {
     Location location
 
     // By percent -- so 30 = 30%.
-    int birthRate = 30
+    int birthRate = 3
     float tribeMortality = 0.015
 
 
@@ -94,8 +94,20 @@ class Tribe implements Serializable {
         }
     }
 
-    float getYoungerMortality() {
+    // TODO: Is this unchanging?
+    float getYoungerMortality(Person p) {
+        int monthsLowerBounds = (Person.AGE_OF_HEALTH[0] as int)
+        // (x-100)^2 / (20 * 100)
+        (0.01f) * Math.pow(p.age - monthsLowerBounds,2) / (20 * monthsLowerBounds)
+                                                       //   ^ comes to 5% at age 0/0
+    }
 
+    // TODO: Is this unchanging?
+    float getOlderMortality(Person p) {
+        int monthsUpperBounds = (Person.AGE_OF_HEALTH[1] as int)
+        // (x-180)^2 / (200 * 180)
+        (0.01f) * Math.pow(p.age - monthsUpperBounds ,2) / (200 * monthsUpperBounds)
+                                                       //     ^ 5% by 60/0, 15% by 90/0
     }
 
     @Canonical

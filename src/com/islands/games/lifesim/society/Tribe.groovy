@@ -1,5 +1,6 @@
 package com.islands.games.lifesim.society
 
+import com.islands.games.lifesim.Location
 import com.islands.games.lifesim.life.Person
 import com.islands.games.lifesim.Simulation
 import com.islands.games.lifesim.Time
@@ -13,6 +14,7 @@ import com.islands.games.lifesim.metaphysics.MagicHandicap
 import com.islands.games.lifesim.metaphysics.MortalityHandicap
 import com.islands.games.lifesim.metaphysics.Tech
 import com.islands.games.lifesim.metaphysics.TechHandicap
+import groovy.transform.Canonical
 
 /**
  * Class representing a group of {@link Person}s that are socially linked.
@@ -23,12 +25,19 @@ class Tribe implements Serializable {
     // Name of the Tribe. Subject to change as the Tribe evolves.
     String name
     // Names the Tribe has had over time, including the current one. Mapped to the Time the name was assigned.
-    final HashMap<Time,String> historicalNames = new HashMap<>()
+    final ArrayList<Name> historicalNames = new ArrayList<>()
 
     // Technologies and magics that the tribe has a natural affinity for.
     final ArrayList<Affinity> affinities = new ArrayList<>()
     // Handicaps which the tribe is subjected to. Tech, magic that they are unable to utilize.
     final ArrayList<Handicap> handicaps = new ArrayList<>()
+
+    Location location
+
+    // By percent -- so 30 = 30%.
+    int birthRate = 30
+    float tribeMortality = 0.015
+
 
     /**
      * Create a new Tribe.
@@ -37,13 +46,23 @@ class Tribe implements Serializable {
      * @param members Array of {@link Person}s making up the {@link #members} of this Tribe. Each Person has its
      * {@link Person#tribe} assigned to this Tribe.
      */
-    Tribe(String name,ArrayList<Person> members) {
-        historicalNames[(Time)Simulation.now.clone()] = name
+    Tribe(String name,ArrayList<Person> members,double x,double y) {
+        historicalNames << new Name(Simulation.now.get(),name)
+        this.location = new Location(x,y)
         this.name = name
         for(member in members) {
             this.members.add(member)
             member.tribe = this
         }
+    }
+
+    void birth(Person father,Person mother) {
+        Person p = new Person(Simulation.now.get(),father,mother)
+
+        p.tribe = this
+        members.add(p)
+
+        mother.lastBirth = Simulation.now.get()
     }
 
     void addAffinities(affinities) {
@@ -67,5 +86,21 @@ class Tribe implements Serializable {
 
             this.handicaps.add(H)
         }
+    }
+
+    ArrayList<Person> getLivingMembers() {
+        members.findAll { p ->
+            p.alive
+        }
+    }
+
+    float getYoungerMortality() {
+
+    }
+
+    @Canonical
+    class Name {
+        Time time
+        String name
     }
 }

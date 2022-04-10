@@ -15,7 +15,7 @@ class EndpointManager {
         // The payload will have a number of keyed elements, with array values.
         payload.tribes.each { Map t ->
             // Each tribe has a name, number of members, location.
-            Tribe T = TribeManager.addTribe(t.name,t.count,t.location)
+            Tribe T = TribeManager.addTribe(t.name,t.count,t.x,t.y)
             // TODO: Adult:Child:Elder ratio
             T.addAffinities(t.affinities)
             T.addHandicaps(t.handicaps)

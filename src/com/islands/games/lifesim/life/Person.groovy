@@ -4,6 +4,8 @@ import com.islands.games.lifesim.Simulation
 import com.islands.games.lifesim.Time
 import com.islands.games.lifesim.society.Tribe
 
+import com.islands.games.lifesim.Random
+
 /**
  * Class representing a person -- whether that means a human or demi-human or what-have-you.
  * NB: At time of creation, the expectation is that they will be human in the general sense.
@@ -98,11 +100,11 @@ class Person extends Organism implements Sexual {
      */
     boolean checkFecundity() {
         // TODO: Almost definitely will need serious tweaking and consideration
-        Math.abs(sexRandomizer.nextInt()) % 100 < tribe.birthRate
+        Math.abs(Random.nextInt()) % 100 < tribe.birthRate
     }
 
     boolean checkDeadification() {
         // TODO: better name
-        Math.abs(sexRandomizer.nextInt()) % 10000 < ((getMortality() * 100 ) )
+        Math.abs(Random.nextInt()) % 10000 < ((getMortality() * 100 ) )
     }
 }

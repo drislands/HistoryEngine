@@ -4,6 +4,7 @@ import com.islands.games.lifesim.Simulation
 import com.islands.games.lifesim.Time
 import com.islands.games.lifesim.life.Person
 import com.islands.games.lifesim.life.Sexual
+import com.islands.games.lifesim.Random
 
 class TribeManager {
     static void DBG(msg) {
@@ -11,7 +12,6 @@ class TribeManager {
             println "DEBUG: $msg"
     }
 
-    static Random maleChooser = new Random()
 
     // TODO: Read these values from config, in advanced settings.
     final static int STARTING_CHILD_AGE = 8 * Time.MONTHS_PER_YEAR
@@ -126,7 +126,7 @@ class TribeManager {
                 if(female.checkFecundity() && breedableMales.size() > 0) {
                     DBG "> fecundity check passed, making baby"
                     // TODO: make this a part of the Tribe logic
-                    int maleIndex = maleChooser.nextInt() % breedableMales.size()
+                    int maleIndex = Random.nextInt() % breedableMales.size()
 
                     Person male = breedableMales[maleIndex]
 

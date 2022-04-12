@@ -1,15 +1,13 @@
 package com.islands.games.lifesim.life
 
+import com.islands.games.lifesim.Random
+
 /**
  * Trait an {@link Organism} subclass can implement, indicating it reproduces sexually via standard M/F biology.
  */
 trait Sexual implements Serializable {
-    static Random sexRandomizer
-    static {
-        sexRandomizer = new Random()
-    }
     // Sex of the Organism.
-    Sex sex  = (Math.abs(sexRandomizer.nextInt()) % 2) ? Sex.PLUG : Sex.OUTLET
+    Sex sex  = (Math.abs(Random.nextInt()) % 2) ? Sex.PLUG : Sex.OUTLET
     // Male parent of the Organism.
     Sexual father
     // Female parent of the Organism.

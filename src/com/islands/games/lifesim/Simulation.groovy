@@ -3,6 +3,7 @@ package com.islands.games.lifesim
 import com.islands.games.lifesim.Time.Age
 import com.islands.games.lifesim.exceptions.UserQuittingException
 import com.islands.games.lifesim.life.Person
+import com.islands.games.lifesim.society.Tribe
 import com.islands.games.lifesim.society.TribeManager
 
 /**
@@ -29,6 +30,7 @@ class Simulation {
             'quit',
             'debug',
             'TEST',
+            'help',
             'now'
     ]
 
@@ -127,12 +129,25 @@ class Simulation {
     }
     // TODO: TEMPORARY
 
+    static void help(ArrayList<String> words) {
+        def first = words?.first()
+        if(!first) {
+            println "Run any of the following commands."
+            commands.each {
+                println "> $it"
+            }
+        }
+    }
+
     /**
-     * Command to make
-     * TODO: Make what? An Age? Person? Need to define
-     * @param words
+     * Command to make various things.
+     * @param words The list of words that define what we're doing.
      */
     static void make(ArrayList<String> words) {
+        def makeOptions = [
+                "tribe"
+                ]
+
         DBG "entering make"
         def first = words?.first()
         DBG "first is $first"
@@ -145,12 +160,16 @@ class Simulation {
                     makeTribe([])
                 break
             case null:
-                println "Girl what is you doin"
+                println "The `make` command must be used with a subcommand. Possible options are: $makeOptions"
                 break
         }
     }
 
     static void get(ArrayList<String> words) {
+        def getOptions = [
+                "tribes"
+                ]
+
         DBG "entering get"
         def first = words?.first()
         DBG "first is $first"
@@ -164,13 +183,30 @@ class Simulation {
                 }
                 break
             case null:
-                println "girl what did i say about giving me nothin"
+                println "The `get` command must be used with a subcommand. Possible options are: $getOptions"
                 break
         }
     }
 
     static void makeTribe(List<String> details) {
         DBG "makeTribe entered"
+
+        if(TribeManager.TRIBES.size() >= TribeManager.MAX_TRIBES) {
+            println "The maximum number of tribes, $TribeManager.MAX_TRIBES, has been reached. You cannot create more."
+            return
+        }
+
+        if(details?.size() > 0 && details.first().toLowerCase() == "default") {
+            println "Creating up to max # of tribes (configured as $TribeManager.MAX_TRIBES) with default settings." // TODO: Ask yes/no to proceed?
+            int i = 0
+            while(TribeManager.TRIBES.size() < TribeManager.MAX_TRIBES) {
+                TribeManager.addDefaultTribe()
+                i ++
+            }
+            println "Done. Total of $i new tribes created with default settings."
+            return
+        }
+
         println "Creating tribe. Please provide name."
         def nameInput = getInput().join(/ /)
         println "Name set as '$nameInput'. Please provide member count."
@@ -197,7 +233,14 @@ class Simulation {
                 locationInput = getInput()
                 X = locationInput[0] as double
                 Y = locationInput[1] as double
-                errorCatch = false
+                def tribe = TribeManager.isTooClose(new Location(X,Y))
+                errorCatch = tribe
+                if(tribe) {
+                    println "The coordinates you specified are too close to at least one other tribe."
+                    println "Specifically, tribe `$tribe.name` with coordinates $tribe.location." +
+                            " Please try again."
+                    // TODO: Tell them what the existing ones are so they stand a chance
+                }
             } catch(ignored) {
                 println "Unable to parse your input as two numbers. Please enter two numbers only (decimals allowed)."
             }

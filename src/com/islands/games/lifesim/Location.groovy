@@ -2,7 +2,11 @@ package com.islands.games.lifesim
 
 import com.islands.games.lifesim.exceptions.ConfigurationException
 
+import java.text.DecimalFormat
+
 class Location {
+    static DecimalFormat DF = new DecimalFormat("#000.00")
+
     boolean global = false
 
     double X
@@ -14,6 +18,18 @@ class Location {
     Location(X,Y) {
         this.X = X
         this.Y = Y
+    }
+
+    String toString() {
+        "($formattedX,$formattedY)"
+    }
+
+    String getFormattedX() {
+        DF.format(X)
+    }
+
+    String getFormattedY() {
+        DF.format(Y)
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.islands.games.lifesim.society
 
+import com.islands.games.lifesim.Location
 import com.islands.games.lifesim.Simulation
 import com.islands.games.lifesim.Time
 import com.islands.games.lifesim.life.Person
@@ -11,6 +12,23 @@ class TribeManager {
         if(Simulation.DEBUG)
             println "DEBUG: $msg"
     }
+
+    // TODO: make configurable
+    final static int MAX_TRIBES = 8
+    final static ArrayList<String> DEFAULT_NAMES = [
+                "The Calypsos",
+                "The Skink Eaters",
+                "Reginald von Bartleby's Boys",
+                "The Revengers",
+                "The Happy Hoagies",
+                "Actually George R.R. Martin",
+                "Cole Slaw Enthusiasts",
+                "Oh you're approaching me?",
+                "Comp4960",
+                "The Guild"
+            ]
+    final static int DEFAULT_SIZE = 100
+    final static double MINIMUM_TRIBE_DISTANCE = 20.0d
 
 
     // TODO: Read these values from config, in advanced settings.
@@ -28,6 +46,33 @@ class TribeManager {
         TRIBES << T
 
         return T
+    }
+
+    /**
+     * Checks to see if a given location is within the {@link #MINIMUM_TRIBE_DISTANCE} of any existing tribe.
+     * @return True if it is within range of at least one tribe, false if it is not within range of any.
+     */
+    static Tribe isTooClose(Location l) {
+        TRIBES.find{  it.location.inRange(l,MINIMUM_TRIBE_DISTANCE) }
+    }
+
+    static void addDefaultTribe() {
+        DBG "Making tribe with default settings"
+        def x,y
+        DBG "generating x and y..."
+        do {
+            x = Random.nextDouble() * 1000 * (Random.nextBoolean() ? -1 : 1)
+            y = Random.nextDouble() * 1000 * (Random.nextBoolean() ? -1 : 1)
+            DBG "> $x,$y"
+        } while(isTooClose(new Location(x,y)))
+
+        def nameIndex = Random.nextInt() % DEFAULT_NAMES.size()
+        def name = DEFAULT_NAMES[nameIndex]
+
+        DEFAULT_NAMES.remove(name)
+        DBG "name $name now in use"
+
+        addTribe(name,DEFAULT_SIZE,x,y)
     }
 
     static ArrayList<Person> generatePersons(count,ratio) {
@@ -77,7 +122,7 @@ class TribeManager {
             println "> Current count: ${t.livingMembers.size()}"
             printAgeMakeup(t)
             println "> Time of most recent naming: ${t.historicalNames[-1].time}"
-            println "> Location: $t.location.X,$t.location.Y"
+            println "> Location: $t.location"
         }
     }
 

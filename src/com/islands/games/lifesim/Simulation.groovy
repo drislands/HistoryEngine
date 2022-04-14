@@ -11,6 +11,7 @@ import com.islands.games.lifesim.society.TribeManager
  */
 class Simulation implements Printable {
     static boolean DEBUG = false
+    static boolean USE_GUI = true
 
 
     // Number of years in a human generation.
@@ -43,10 +44,12 @@ class Simulation implements Printable {
         println '===================='
         println 'Simulation starting.'
         println '===================='
-        repl()
-        println '===================='
-        println 'Simulation ended.'
-        println '===================='
+        if(!USE_GUI) {
+            repl()
+            println '===================='
+            println 'Simulation ended.'
+            println '===================='
+        }
     }
 
     /**
@@ -67,9 +70,19 @@ class Simulation implements Printable {
     }
 
     static List<String> getInput() {
-        def text = read()
-        // Split the text into words by spaces.
-        text.split(/ +/)
+        def text
+        if(!USE_GUI) {
+            text = read()
+            // Split the text into words by spaces.
+        } else {
+            GUIManager.waiting_on_input = true
+            while(!GUIManager.input_ready) {
+                // derp de do
+            }
+            GUIManager.input_ready = false
+            text = GUIManager.input
+        }
+        return text.split(/ +/)
     }
 
     /**
@@ -78,13 +91,16 @@ class Simulation implements Printable {
      * @return False if the user called the {@link #quit} method, true otherwise.
      */
     static boolean exec(String text) {
+        DBG "entering exec"
         // Split the text into words by spaces.
         def words = text.split(/ +/)
         // The first word is the command.
         def command = words.first()
+        DBG "got words: $words"
 
         // Check that the first word is in the list of permissible commands.
         if(command in commands) {
+            DBG "command $command is in approved list"
             try {
                 // If we have more than 1 word, pass the remaining words to the method with name "command".
                 if (words.length > 1)
@@ -150,9 +166,9 @@ class Simulation implements Printable {
             case "tribe":
                 DBG "tribe gotten, entering makeTribe"
                 if(words.size() > 1)
-                    makeTribe(words[1..-1])
+                    makeTribe(words[1..-1],USE_GUI)
                 else
-                    makeTribe([])
+                    makeTribe([],USE_GUI)
                 break
             case null:
                 println "The `make` command must be used with a subcommand. Possible options are: $makeOptions"
@@ -183,7 +199,7 @@ class Simulation implements Printable {
         }
     }
 
-    static void makeTribe(List<String> details) {
+    static void makeTribe(List<String> details,boolean useGUI=false) {
         DBG "makeTribe entered"
 
         if(TribeManager.TRIBES.size() >= TribeManager.MAX_TRIBES) {

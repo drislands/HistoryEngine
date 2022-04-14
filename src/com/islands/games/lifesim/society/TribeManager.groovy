@@ -1,17 +1,14 @@
 package com.islands.games.lifesim.society
 
 import com.islands.games.lifesim.Location
+import com.islands.games.lifesim.Printable
 import com.islands.games.lifesim.Simulation
 import com.islands.games.lifesim.Time
 import com.islands.games.lifesim.life.Person
 import com.islands.games.lifesim.life.Sexual
 import com.islands.games.lifesim.Random
 
-class TribeManager {
-    static void DBG(msg) {
-        if(Simulation.DEBUG)
-            println "DEBUG: $msg"
-    }
+class TribeManager implements Printable {
 
     // TODO: make configurable
     final static int MAX_TRIBES = 8

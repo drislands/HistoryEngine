@@ -9,13 +9,8 @@ import com.islands.games.lifesim.society.TribeManager
 /**
  * General class for starting and manipulating the Simulation.
  */
-class Simulation {
+class Simulation implements Printable {
     static boolean DEBUG = false
-
-    static void DBG(msg) {
-        if(Simulation.DEBUG)
-            println "DEBUG: $msg"
-    }
 
 
     // Number of years in a human generation.

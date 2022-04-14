@@ -1,5 +1,6 @@
 package com.islands.games.lifesim.life
 
+import com.islands.games.lifesim.Printable
 import com.islands.games.lifesim.Simulation
 import com.islands.games.lifesim.Time
 import com.islands.games.lifesim.society.Tribe
@@ -10,11 +11,7 @@ import com.islands.games.lifesim.Random
  * Class representing a person -- whether that means a human or demi-human or what-have-you.
  * NB: At time of creation, the expectation is that they will be human in the general sense.
  */
-class Person extends Organism implements Sexual {
-    static void DBG(msg) {
-        if(Simulation.DEBUG)
-            println "DEBUG: $msg"
-    }
+class Person extends Organism implements Sexual, Printable {
 
     final static Tuple<Integer> AGE_OF_HEALTH = new Tuple(
             10 * Time.MONTHS_PER_YEAR,

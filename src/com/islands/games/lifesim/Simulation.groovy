@@ -77,7 +77,7 @@ class Simulation implements Printable {
         } else {
             GUIManager.waiting_on_input = true
             while(!GUIManager.input_ready) {
-                // derp de do
+                sleep(100)
             }
             GUIManager.input_ready = false
             text = GUIManager.input

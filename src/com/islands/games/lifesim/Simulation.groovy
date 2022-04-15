@@ -3,7 +3,6 @@ package com.islands.games.lifesim
 import com.islands.games.lifesim.Time.Age
 import com.islands.games.lifesim.exceptions.UserQuittingException
 import com.islands.games.lifesim.life.Person
-import com.islands.games.lifesim.society.Tribe
 import com.islands.games.lifesim.society.TribeManager
 
 /**
@@ -12,6 +11,8 @@ import com.islands.games.lifesim.society.TribeManager
 class Simulation implements Printable {
     static boolean DEBUG = false
     static boolean USE_GUI = true
+
+    static GUIManager gMan
 
 
     // Number of years in a human generation.
@@ -25,7 +26,6 @@ class Simulation implements Printable {
             'advance',
             'quit',
             'debug',
-            'TEST',
             'help',
             'now'
     ]
@@ -127,19 +127,6 @@ class Simulation implements Printable {
     /// REPL Commands
     //////////////////
 
-    // TODO: TEMPORARY
-    static void TEST(ArrayList<String> words) {
-        int offset = words.first() as int
-
-        Person p = new Person(now.get(),offset)
-        p.tribe = TribeManager.TRIBES[0]
-
-        float mortality = p.getMortality()
-
-        println "Mortality checked: $mortality"
-    }
-    // TODO: TEMPORARY
-
     static void help(ArrayList<String> words) {
         def first = words?.first()
         if(!first) {
@@ -148,6 +135,7 @@ class Simulation implements Printable {
                 println "> $it"
             }
         }
+        // TODO: implement sub-command help.
     }
 
     /**

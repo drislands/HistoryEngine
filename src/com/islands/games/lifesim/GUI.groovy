@@ -1,6 +1,7 @@
 package com.islands.games.lifesim
 
 import javax.swing.JFrame
+import javax.swing.JTabbedPane
 import javax.swing.JTextArea
 import javax.swing.JTextField
 import java.awt.Font
@@ -15,4 +16,5 @@ class GUI {
     JFrame mainFrame
     JTextArea console
     JTextField consoleEntry
+    JTabbedPane infoPane
 }

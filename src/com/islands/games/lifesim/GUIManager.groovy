@@ -34,7 +34,7 @@ class GUIManager {
                         scrollPane(minimumSize: [425, 750],constraints:"cell 0 0,span") {
                             console = textArea(editable: false, lineWrap:true,wrapStyleWord: true, font: consoleFont,  background: Color.black, foreground: Color.green)
                         }
-                        tabbedPane(id:"tabs",tabLayoutPolicy: JTabbedPane.SCROLL_TAB_LAYOUT,constraints:"cell 1 0,w 425px") {
+                        infoPane = tabbedPane(id:"tabs",tabLayoutPolicy: JTabbedPane.SCROLL_TAB_LAYOUT,constraints:"cell 1 0,w 425px") {
                             panel(name:"Tribe 1",layout:new MigLayout()) {
                                 label(text:"Tribe Name:",font:categoryFont,constraints:"cell 0 0,alignx right")
                                 label(text:"Sample Tribe Name",font:dataFont,constraints:"cell 1 0")
@@ -98,6 +98,7 @@ class GUIManager {
 
     static void main(args) {
         GUIManager gMan = new GUIManager()
+        Simulation.gMan = gMan
         PrintManager.printOperation = { String msg, boolean newLine ->
             gMan.gui.console.append(msg + (newLine ? "\n" : ""))
             gMan.gui.console.caretPosition = gMan.gui.console.document.length

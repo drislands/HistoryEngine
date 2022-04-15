@@ -3,18 +3,24 @@ package com.islands.games.lifesim
 import groovy.swing.SwingBuilder
 import net.miginfocom.swing.MigLayout
 
-import javax.swing.JDialog
 import javax.swing.JFrame
 import javax.swing.JOptionPane
 import javax.swing.JTabbedPane
 import java.awt.Color
-import java.awt.event.ComponentEvent
-import java.awt.event.ComponentListener
 
 class GUIManager {
+    /*
+     These four values act as a state machine for the simulation. While not waiting on input, any new text the user
+     provides act as a new individual command. While the command is running, any new reads will make use of these
+     variables to indicate that more information is needed -- and then the text the user enters in will be taken by
+     the running command instead of creating a new one to execute.
+     */
     static boolean waiting_on_input = false
     static boolean input_ready = false
+    static boolean new_command_allowed = true
     static String input = ""
+
+    static boolean DEBUG = false
 
     SwingBuilder builder = new SwingBuilder()
     GUI gui = new GUI()
@@ -23,25 +29,59 @@ class GUIManager {
         gui.with {
             builder.edt {
                 mainFrame = frame(title: "History Engine", size: [900, 900], show: true, defaultCloseOperation: JFrame.EXIT_ON_CLOSE,resizable: false) {
-                    panel(layout: new MigLayout("fillx, wrap 1", "[grow]")) {
+                    panel(layout: new MigLayout("ins 0,fillx ${DEBUG?",debug":""}", "[grow|]")) {
                         label(font:headerFont,text: "Console", constraints: " north,alignx center")
-                        console = textArea(font:consoleFont,minimumSize: [300, 300],  background: Color.black, foreground: Color.green, constraints: "cell 0 0,span")
-                        tabbedPane(id:"tabs",tabLayoutPolicy: JTabbedPane.SCROLL_TAB_LAYOUT,constraints:"cell 1 0") {
-                            panel(name:"Tab 1",layout:new MigLayout()) {
-                                label(text:"wow how'd you get here",constraints:"cell 0 0")
+                        scrollPane(minimumSize: [425, 750],constraints:"cell 0 0,span") {
+                            console = textArea(editable: false, lineWrap:true,wrapStyleWord: true, font: consoleFont,  background: Color.black, foreground: Color.green)
+                        }
+                        tabbedPane(id:"tabs",tabLayoutPolicy: JTabbedPane.SCROLL_TAB_LAYOUT,constraints:"cell 1 0,w 425px") {
+                            panel(name:"Tribe 1",layout:new MigLayout()) {
+                                label(text:"Tribe Name:",font:categoryFont,constraints:"cell 0 0,alignx right")
+                                label(text:"Sample Tribe Name",font:dataFont,constraints:"cell 1 0")
+                                label(text:"Member Count:",font:categoryFont,constraints:"cell 0 1,alignx right")
+                                label(text:"100",font:dataFont,constraints:"cell 1 1")
+                                label(text:"Coordinates:",font:categoryFont,constraints:"cell 0 2,alignx right")
+                                label(text:"(025.22,-199.55)",font:dataFont,constraints:"cell 1 2")
+                                label(text:"Nearby Threats:",font:categoryFont,constraints:"cell 0 3,alignx right")
+                                label(text:"Volcano",font:dataFont,constraints:"cell 1 3")
+                                label(text:"Nearby Resources:",font:categoryFont,constraints:"cell 0 4,alignx right")
+                                label(text:"Fertile land, Running water",font:dataFont,constraints:"cell 1 4")
                             }
-                            panel(name:"Tab 2",layout:new MigLayout()) {
-                                label(text:"sheeeeesh",constraints:"cell 0 0")
+                            panel(name:"Tribe 2",layout:new MigLayout()) {
+                                label(text:"Tribe Name:",font:categoryFont,constraints:"cell 0 0,alignx right")
+                                label(text:"Other Tribe Name",font:dataFont,constraints:"cell 1 0")
+                                label(text:"Member Count:",font:categoryFont,constraints:"cell 0 1,alignx right")
+                                label(text:"169",font:dataFont,constraints:"cell 1 1")
+                                label(text:"Coordinates:",font:categoryFont,constraints:"cell 0 2,alignx right")
+                                label(text:"(803.72,459.90)",font:dataFont,constraints:"cell 1 2")
+                                label(text:"Nearby Threats:",font:categoryFont,constraints:"cell 0 3,alignx right")
+                                label(text:"Dinosaurs, Magic Leyline",font:dataFont,constraints:"cell 1 3")
+                                label(text:"Nearby Resources:",font:categoryFont,constraints:"cell 0 4,alignx right")
+                                label(text:"Gold, Magic Leyline",font:dataFont,constraints:"cell 1 4")
                             }
                         }
-                        consoleEntry = textField(columns:80,constraints:"cell 0 1 2 1",actionPerformed: {
+                        consoleEntry = textField(columns:80,constraints:"cell 0 1 2 1,aligny center, alignx center",actionPerformed: {
+                            // Start a thread so the GUI doesn't get locked up while executing the given command.
                             new Thread().start() {
                                 String text = consoleEntry.text
                                 consoleEntry.text = ""
                                 if(!waiting_on_input) {
-                                    if (!Simulation.exec(text)) {
-                                        if (JOptionPane.showConfirmDialog(mainFrame, "They'll be dead, you know.", "Kill all those people?", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION)
-                                            System.exit(0)
+                                    if(new_command_allowed) {
+                                        new_command_allowed = false
+                                        if (!Simulation.exec(text)) {
+                                            if (JOptionPane.showConfirmDialog(mainFrame,
+                                                    "They'll be dead, you know.",
+                                                    "Kill all those people?",
+                                                    JOptionPane.YES_NO_OPTION,
+                                                    JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION)
+                                                System.exit(0)
+                                        }
+                                        new_command_allowed = true
+                                    } else {
+                                        JOptionPane.showMessageDialog(mainFrame,
+                                                "Please wait for current command to finish.",
+                                                "Command currently running",
+                                                JOptionPane.WARNING_MESSAGE)
                                     }
                                 } else {
                                     input = text

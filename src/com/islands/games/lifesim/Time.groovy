@@ -37,6 +37,14 @@ class Time {
         this(Age.latest(),year,month)
     }
 
+    Object clone() {
+        new Time(this.age,this.year,this.month)
+    }
+
+    Time get() {
+        (Time) this.clone()
+    }
+
     /**
      * Converts the Time stamp into a human-readable string.
      */
@@ -64,7 +72,7 @@ class Time {
     Time plus(int months) {
         if(months < 0)
             throw new TimeException('Cannot add negative months to a Time.')
-        Time newTime = this.clone() as Time
+        Time newTime = this.get()
         newTime.month += months
 
         while(newTime.month > MONTHS_PER_YEAR) {
@@ -73,6 +81,13 @@ class Time {
         }
 
         return newTime
+    }
+
+    int minus(Time other) {
+        int totalMonthsMine = (this.year * MONTHS_PER_YEAR) + this.month
+        int totalMonthsOther = (other.year * MONTHS_PER_YEAR) + other.month
+
+        Math.abs(totalMonthsMine - totalMonthsOther)
     }
 
     /**

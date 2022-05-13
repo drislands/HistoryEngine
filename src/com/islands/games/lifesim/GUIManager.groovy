@@ -7,6 +7,8 @@ import javax.swing.JFrame
 import javax.swing.JOptionPane
 import javax.swing.JTabbedPane
 import java.awt.Color
+import java.awt.event.KeyEvent
+import java.awt.event.KeyListener
 
 class GUIManager {
     /*
@@ -64,6 +66,9 @@ class GUIManager {
                             // Start a thread so the GUI doesn't get locked up while executing the given command.
                             new Thread().start() {
                                 String text = consoleEntry.text
+                                entryHistory << text
+                                entryIndex = null
+                                currentEntry = ""
                                 consoleEntry.text = ""
                                 if(!waiting_on_input) {
                                     if(new_command_allowed) {
@@ -88,6 +93,55 @@ class GUIManager {
                                     input_ready = true
                                     waiting_on_input = false
                                 }
+                            }
+                        })
+                        consoleEntry.addKeyListener( new KeyListener() {
+                            @Override
+                            void keyTyped(KeyEvent e) {
+                                // Do nothing.
+                            }
+
+                            @Override
+                            void keyPressed(KeyEvent e) {
+                                gui.with {
+                                    if (e.keyCode !in [KeyEvent.VK_UP, KeyEvent.VK_DOWN]) {
+                                        entryIndex = null
+                                        // We want to stop tracking history, and then continue as normal.
+                                        //  This accounts for going up, picking an old entry, then modifying it.
+                                        return
+                                    }
+
+                                    if (e.keyCode == KeyEvent.VK_UP) {
+                                        if (entryIndex == null) {
+                                            currentEntry = consoleEntry.text
+                                            entryIndex = entryHistory.size() - 1
+                                        } else if (entryIndex > 0) {
+                                            entryIndex--
+                                        } else {
+                                            // TODO: flash? indicate to the user somehow that we are at the beginning
+                                            // If the index is 0, we're at the oldest change and don't need to go up further.
+                                        }
+                                    } else if (e.keyCode == KeyEvent.VK_DOWN) {
+                                        if (entryIndex != null && entryIndex < entryHistory.size() - 1) {
+                                            entryIndex++
+                                        } else {
+                                            if(entryIndex != null && entryIndex == entryHistory.size() - 1) {
+                                                consoleEntry.text = currentEntry
+                                                entryIndex = null
+                                            }
+                                            // TODO: flash? indicate to the user somehow that we are at the end
+                                            // If the index is one less than the size, we're at the newest change and don't need to go down further.
+                                        }
+                                    }
+
+                                    if(entryIndex != null)
+                                        consoleEntry.text = entryHistory[entryIndex]
+                                }
+                            }
+
+                            @Override
+                            void keyReleased(KeyEvent e) {
+                                // Do nothing.
                             }
                         })
                     }

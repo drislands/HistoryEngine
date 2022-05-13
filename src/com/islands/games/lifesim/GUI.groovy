@@ -7,6 +7,8 @@ import javax.swing.JTextField
 import java.awt.Font
 
 class GUI {
+    ////////
+    // Swing components.
     Font headerFont = new Font("Impact",Font.BOLD,35)
     Font consoleFont = new Font("Courier New",Font.PLAIN,12)
 
@@ -17,4 +19,12 @@ class GUI {
     JTextArea console
     JTextField consoleEntry
     JTabbedPane infoPane
+
+    ////////
+
+    ArrayList<String> entryHistory = new ArrayList<>()
+    Integer entryIndex = null
+    String currentEntry = ""
+
+    ////////
 }

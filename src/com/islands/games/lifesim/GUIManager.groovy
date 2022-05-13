@@ -9,6 +9,7 @@ import javax.swing.JTabbedPane
 import java.awt.Color
 import java.awt.event.KeyEvent
 import java.awt.event.KeyListener
+import java.awt.Toolkit
 
 class GUIManager {
     /*
@@ -112,12 +113,13 @@ class GUIManager {
                                     }
 
                                     if (e.keyCode == KeyEvent.VK_UP) {
-                                        if (entryIndex == null) {
+                                        if (entryIndex == null && entryHistory.size() > 0) {
                                             currentEntry = consoleEntry.text
                                             entryIndex = entryHistory.size() - 1
                                         } else if (entryIndex > 0) {
                                             entryIndex--
                                         } else {
+                                            Toolkit.defaultToolkit.beep()
                                             // TODO: flash? indicate to the user somehow that we are at the beginning
                                             // If the index is 0, we're at the oldest change and don't need to go up further.
                                         }
@@ -125,11 +127,12 @@ class GUIManager {
                                         if (entryIndex != null && entryIndex < entryHistory.size() - 1) {
                                             entryIndex++
                                         } else {
-                                            if(entryIndex != null && entryIndex == entryHistory.size() - 1) {
+                                            if(entryIndex == null) {
+                                                Toolkit.defaultToolkit.beep()
+                                            } else if(entryIndex == entryHistory.size() - 1) {
                                                 consoleEntry.text = currentEntry
                                                 entryIndex = null
                                             }
-                                            // TODO: flash? indicate to the user somehow that we are at the end
                                             // If the index is one less than the size, we're at the newest change and don't need to go down further.
                                         }
                                     }

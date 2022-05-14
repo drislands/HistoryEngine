@@ -21,14 +21,16 @@ class Simulation implements Printable {
     static Time now
     // List of valid commands that can be given in CLI mode.
     static def commands = [
-            'make',
-            'get',
+            'make', 'create',
+            'get', 'show',
             'advance',
             'quit',
             'debug',
             'help',
             'now'
     ]
+
+    static String command // This is the command that is currently being used. This allows for better alias help text.
 
     /**
      * Main method.
@@ -95,7 +97,7 @@ class Simulation implements Printable {
         // Split the text into words by spaces.
         def words = text.split(/ +/)
         // The first word is the command.
-        def command = words.first()
+        command = words.first()
         DBG "got words: $words"
 
         // Check that the first word is in the list of permissible commands.
@@ -138,6 +140,10 @@ class Simulation implements Printable {
         // TODO: implement sub-command help.
     }
 
+    static void create(ArrayList<String> words) {
+        make(words)
+    }
+
     /**
      * Command to make various things.
      * @param words The list of words that define what we're doing.
@@ -159,9 +165,13 @@ class Simulation implements Printable {
                     makeTribe([],USE_GUI)
                 break
             case null:
-                println "The `make` command must be used with a subcommand. Possible options are: $makeOptions"
+                println "The `$command` command must be used with a subcommand. Possible options are: $makeOptions"
                 break
         }
+    }
+
+    static void show(ArrayList<String> words) {
+        get(words)
     }
 
     static void get(ArrayList<String> words) {
@@ -182,7 +192,7 @@ class Simulation implements Printable {
                 }
                 break
             case null:
-                println "The `get` command must be used with a subcommand. Possible options are: $getOptions"
+                println "The `$command` command must be used with a subcommand. Possible options are: $getOptions"
                 break
         }
     }

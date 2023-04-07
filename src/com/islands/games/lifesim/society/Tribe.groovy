@@ -1,5 +1,6 @@
 package com.islands.games.lifesim.society
 
+import com.islands.games.lifesim.Informable
 import com.islands.games.lifesim.Location
 import com.islands.games.lifesim.life.Person
 import com.islands.games.lifesim.Simulation
@@ -19,7 +20,7 @@ import groovy.transform.Canonical
 /**
  * Class representing a group of {@link Person}s that are socially linked.
  */
-class Tribe implements Serializable {
+class Tribe implements Serializable, Informable {
     // List of members of this Tribe.
     final ArrayList<Person> members = new ArrayList<>()
     // Name of the Tribe. Subject to change as the Tribe evolves.
@@ -108,6 +109,19 @@ class Tribe implements Serializable {
         // (x-180)^2 / (200 * 180)
         (0.01f) * Math.pow(p.age - monthsUpperBounds ,2) / (200 * monthsUpperBounds)
                                                        //     ^ 5% by 60/0, 15% by 90/0
+    }
+
+    Map info() {
+        [
+                name:name,
+                members:members,
+                historicalNames:historicalNames,
+                affinities:affinities,
+                handicaps:handicaps,
+                location:location,
+                birthrate:birthRate,
+                mortality:tribeMortality
+        ]
     }
 
     @Canonical

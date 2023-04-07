@@ -1,11 +1,12 @@
 package com.islands.games.lifesim.threats
 
+import com.islands.games.lifesim.Informable
 import com.islands.games.lifesim.Printable
 
 /**
  * Class for general kinds of threats that a Tribe may face in the simulation.
  */
-class ThreatTemplate implements Printable {
+class ThreatTemplate implements Printable, Informable {
     String name
     String description = null
 
@@ -24,5 +25,13 @@ class ThreatTemplate implements Printable {
             DBG "> New: $desc"
         }
         description = desc
+    }
+
+    Map info() {
+        [
+                name:name,
+                description:description,
+                threatLevel:threatLevel
+        ]
     }
 }

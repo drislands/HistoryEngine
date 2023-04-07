@@ -1,12 +1,13 @@
 package com.islands.games.lifesim.threats
 
+import com.islands.games.lifesim.Informable
 import com.islands.games.lifesim.Location
 import com.islands.games.lifesim.metaphysics.AdvancementManager
 
 /**
  * Class for threats a Tribe may face in the simulation.
  */
-class Threat {
+class Threat implements Informable {
     String name
     String description
 
@@ -29,5 +30,15 @@ class Threat {
 
     def getMitigators() {
         AdvancementManager.getMitigators(template)
+    }
+
+    Map info() {
+        [
+                name:name,
+                description:description,
+                template:template,
+                location:location,
+                mitigators:mitigators
+        ]
     }
 }

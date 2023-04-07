@@ -1,6 +1,6 @@
 package com.islands.games.lifesim.metaphysics
 
-import com.islands.games.lifesim.threats.Threat
+import com.islands.games.lifesim.threats.ThreatTemplate
 
 /**
  * Management class for various advancements a Tribe can make.
@@ -20,9 +20,9 @@ class AdvancementManager {
     }
 
     /**
-     * Gets all {@link Advancement} objects that have the given {@link Threat} as something they mitigate.
+     * Gets all {@link Advancement} objects that have the given {@link ThreatTemplate} as something they mitigate.
      */
-    static ArrayList<Advancement> getMitigators(Threat t) {
+    static ArrayList<Advancement> getMitigators(ThreatTemplate t) {
         // TODO: check all advancements and make a list of which ones mitigate the given threat
     }
 }

@@ -10,13 +10,24 @@ class Threat {
     String name
     String description
 
+    ThreatTemplate template
+
     // Location of this particular threat.
     Location location
 
-    // How much mortality is impacted by this threat.
-    float threatLevel
+    /**
+     *
+     * @param name
+     * @param template
+     * @param location
+     */
+    Threat(String name,ThreatTemplate template,Location location) {
+        this.name = name
+        this.template = template
+        this.location = location
+    }
 
     def getMitigators() {
-        AdvancementManager.getMitigators(this)
+        AdvancementManager.getMitigators(template)
     }
 }

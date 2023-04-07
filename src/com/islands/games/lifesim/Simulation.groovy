@@ -27,6 +27,7 @@ class Simulation implements Printable {
             'quit',
             'debug',
             'help',
+            'info',
             'now'
     ]
 
@@ -315,6 +316,45 @@ class Simulation implements Printable {
      */
     static void quit() {
         throw new UserQuittingException('User initiated quit')
+    }
+
+    /**
+     *
+     * @param words
+     */
+    static void info(List<String> details) {
+        def which = details.first().toLowerCase()
+
+        // TODO: what I'm envisioning is this:
+        //  * Call the info() method on the named object, get the Map it returns.
+        //  * Print out the type of thing: Tribe, Threat, etc.
+        //  * Print out the (instanceof String) objects in the Map with keys.
+        //  * For each ArrayList, indent and check if (instanceof Informable) -- if so, get info() and repeat.
+        //    * If not, just print as-is.
+        //  * For each Map in the root Map, indent and repeat.
+        switch(which) {
+            case "tribe":
+                // TODO: get the second word, use that as name, print the info() call on it.
+                break
+            case "threat":
+                // TODO: get the second word, use that as name, print the info() call on it.
+                break
+            case "threat-template":
+            case "template":
+                // TODO: get the second word, use that as name, print the info() call on it.
+                break
+            default:
+                // TODO: throw an error.
+                break
+        }
+    }
+
+    /**
+     *
+     * @param map
+     */
+    static void printInfo(Map map,int indentCount=0) {
+        // TODO: Define as above. To be used for the whole map recursively.
     }
 
     /**

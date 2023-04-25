@@ -1,6 +1,6 @@
 package com.islands.games.lifesim.threats
 
-import com.islands.games.lifesim.Location
+import com.islands.games.lifesim.external.Location
 
 /**
  * Management class for {link Threat} objects.

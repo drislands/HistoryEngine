@@ -1,6 +1,6 @@
 package com.islands.games.lifesim.life
 
-import com.islands.games.lifesim.Random
+import com.islands.games.lifesim.external.Random
 
 /**
  * Trait an {@link Organism} subclass can implement, indicating it reproduces sexually via standard M/F biology.

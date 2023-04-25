@@ -1,7 +1,7 @@
 package com.islands.games.lifesim.threats
 
-import com.islands.games.lifesim.Informable
-import com.islands.games.lifesim.Location
+import com.islands.games.lifesim.external.Informable
+import com.islands.games.lifesim.external.Location
 import com.islands.games.lifesim.metaphysics.AdvancementManager
 
 /**

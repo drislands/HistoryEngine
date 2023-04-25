@@ -63,7 +63,9 @@ class GUIManager {
                                 label(text:"Gold, Magic Leyline",font:dataFont,constraints:"cell 1 4")
                             }
                         }
-                        consoleEntry = textField(columns:80,constraints:"cell 0 1 2 1,aligny center, alignx center",actionPerformed: {
+                        consoleEntry = textField(columns:80,constraints:"cell 0 1 2 1,aligny center, alignx center",
+                                focusTraversalKeysEnabled: false,
+                                actionPerformed: {
                             // Start a thread so the GUI doesn't get locked up while executing the given command.
                             new Thread().start() {
                                 String text = consoleEntry.text
@@ -105,11 +107,20 @@ class GUIManager {
                             @Override
                             void keyPressed(KeyEvent e) {
                                 gui.with {
-                                    if (e.keyCode !in [KeyEvent.VK_UP, KeyEvent.VK_DOWN]) {
+                                    if (e.keyCode !in [KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_TAB]) {
                                         entryIndex = null
                                         // We want to stop tracking history, and then continue as normal.
                                         //  This accounts for going up, picking an old entry, then modifying it.
                                         return
+                                    }
+
+                                    // Tab autocomplete functionality.
+                                    if(e.keyCode == KeyEvent.VK_TAB) {
+                                        String text = consoleEntry.text
+                                        def command = Simulation.commands.find { cmd ->
+                                            cmd.startsWith(text)
+                                        }
+                                        if(command) consoleEntry.text = command
                                     }
 
                                     if (e.keyCode == KeyEvent.VK_UP) {

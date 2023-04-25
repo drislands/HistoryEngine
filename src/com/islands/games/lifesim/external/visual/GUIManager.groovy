@@ -1,5 +1,6 @@
-package com.islands.games.lifesim
+package com.islands.games.lifesim.external.visual
 
+import com.islands.games.lifesim.external.Simulation
 import groovy.swing.SwingBuilder
 import net.miginfocom.swing.MigLayout
 

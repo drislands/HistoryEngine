@@ -1,4 +1,4 @@
-package com.islands.games.lifesim
+package com.islands.games.lifesim.external
 
 class Random {
     static java.util.Random r = new java.util.Random()

@@ -1,4 +1,4 @@
-package com.islands.games.lifesim
+package com.islands.games.lifesim.external
 
 import com.islands.games.lifesim.society.Tribe
 import com.islands.games.lifesim.society.TribeManager

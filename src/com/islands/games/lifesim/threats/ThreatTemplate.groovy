@@ -1,7 +1,7 @@
 package com.islands.games.lifesim.threats
 
-import com.islands.games.lifesim.Informable
-import com.islands.games.lifesim.Printable
+import com.islands.games.lifesim.external.Informable
+import com.islands.games.lifesim.external.visual.Printable
 
 /**
  * Class for general kinds of threats that a Tribe may face in the simulation.

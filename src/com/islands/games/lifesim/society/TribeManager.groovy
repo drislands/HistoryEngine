@@ -1,12 +1,12 @@
 package com.islands.games.lifesim.society
 
-import com.islands.games.lifesim.Location
-import com.islands.games.lifesim.Printable
-import com.islands.games.lifesim.Simulation
-import com.islands.games.lifesim.Time
+import com.islands.games.lifesim.external.Location
+import com.islands.games.lifesim.external.visual.Printable
+import com.islands.games.lifesim.external.Simulation
+import com.islands.games.lifesim.external.Time
 import com.islands.games.lifesim.life.Person
 import com.islands.games.lifesim.life.Sexual
-import com.islands.games.lifesim.Random
+import com.islands.games.lifesim.external.Random
 
 class TribeManager implements Printable {
 

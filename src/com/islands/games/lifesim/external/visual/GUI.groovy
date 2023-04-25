@@ -1,4 +1,4 @@
-package com.islands.games.lifesim
+package com.islands.games.lifesim.external.visual
 
 import javax.swing.JFrame
 import javax.swing.JTabbedPane

@@ -1,4 +1,4 @@
-package com.islands.games.lifesim
+package com.islands.games.lifesim.external.visual
 
 class PrintManager {
     // the default print operation. Can be swapped for other code to allow for other printing.

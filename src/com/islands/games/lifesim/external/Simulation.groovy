@@ -1,8 +1,9 @@
-package com.islands.games.lifesim
+package com.islands.games.lifesim.external
 
-import com.islands.games.lifesim.Time.Age
+import com.islands.games.lifesim.external.Time.Age
 import com.islands.games.lifesim.exceptions.UserQuittingException
-import com.islands.games.lifesim.life.Person
+import com.islands.games.lifesim.external.visual.GUIManager
+import com.islands.games.lifesim.external.visual.Printable
 import com.islands.games.lifesim.society.TribeManager
 
 /**

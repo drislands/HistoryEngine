@@ -38,9 +38,12 @@ class TribeManager implements Printable {
     // The ratio of child : adult : elder, in that order.
     static String MEMBER_RATIO = "1:3:1"
     static Tribe addTribe(name,count,x,y) {
+        addTribe(name,count,new Location(x,y))
+    }
+    static Tribe addTribe(name,count,location) {
         ArrayList<Person> persons = generatePersons(count,MEMBER_RATIO)
 
-        Tribe T = new Tribe(name,persons,x,y)
+        Tribe T = new Tribe(name,persons,location)
         TRIBES << T
 
         return T

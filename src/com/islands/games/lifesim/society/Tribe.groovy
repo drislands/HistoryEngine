@@ -47,9 +47,9 @@ class Tribe implements Serializable, Informable {
      * @param members Array of {@link Person}s making up the {@link #members} of this Tribe. Each Person has its
      * {@link Person#tribe} assigned to this Tribe.
      */
-    Tribe(String name,ArrayList<Person> members,double x,double y) {
+    Tribe(String name,ArrayList<Person> members,Location location) {
         historicalNames << new Name(Simulation.now.get(),name)
-        this.location = new Location(x,y)
+        this.location = location
         this.name = name
         for(member in members) {
             this.members.add(member)

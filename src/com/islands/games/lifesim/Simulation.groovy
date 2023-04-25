@@ -9,6 +9,7 @@ import com.islands.games.lifesim.society.TribeManager
  * General class for starting and manipulating the Simulation.
  */
 class Simulation implements Printable {
+    static String  USER_PREFIX = '$'
     static boolean DEBUG = false
     static boolean USE_GUI = true
 
@@ -95,6 +96,7 @@ class Simulation implements Printable {
      */
     static boolean exec(String text) {
         DBG "entering exec"
+        println "$USER_PREFIX $text"
         // Split the text into words by spaces.
         def words = text.split(/ +/)
         // The first word is the command.

@@ -128,7 +128,10 @@ class GUIManager {
                                             entryIndex++
                                         } else {
                                             if(entryIndex == null) {
-                                                Toolkit.defaultToolkit.beep()
+                                                if(consoleEntry.text != "") {
+                                                    entryHistory << consoleEntry.text
+                                                }
+                                                consoleEntry.text = ""
                                             } else if(entryIndex == entryHistory.size() - 1) {
                                                 consoleEntry.text = currentEntry
                                                 entryIndex = null
@@ -161,6 +164,7 @@ class GUIManager {
             gMan.gui.console.caretPosition = gMan.gui.console.document.length
         }
         gMan.init()
+        gMan.gui.consoleEntry.requestFocus()
         Simulation.main(args)
     }
 }

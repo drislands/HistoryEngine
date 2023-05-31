@@ -21,8 +21,10 @@ def tribes = Whom.TRIBES
 def close,far,all
 use(DistanceCategory) {
   close = affects tribes within 10.meters
+  //      affects(tribes).within(10.meters)
   far   = affects tribes within 10.kilometers
   all   = affects tribes everywhere
+  //      affects(tribes).getEverywhere()
 }
 println "Close:"
 close.each { t ->
@@ -78,7 +80,8 @@ class TribeManager {
   }
   
   static getLocal(dist) {
-    Tribes.findAll { t -> t.where < dist || dist < 0 }
+    if(dist < 0) return Tribes
+    Tribes.findAll { t -> t.where < dist }
   }
 }
 

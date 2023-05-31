@@ -1,7 +1,7 @@
 package com.islands.games.lifesim.life
 
-import com.islands.games.lifesim.Scale
-import com.islands.games.lifesim.Time
+import com.islands.games.lifesim.external.Scale
+import com.islands.games.lifesim.external.Time
 
 /**
  * Class representing any kind of thing that can live and die.

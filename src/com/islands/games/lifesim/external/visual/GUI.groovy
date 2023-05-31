@@ -1,4 +1,4 @@
-package com.islands.games.lifesim
+package com.islands.games.lifesim.external.visual
 
 import javax.swing.JFrame
 import javax.swing.JTabbedPane
@@ -10,7 +10,7 @@ class GUI {
     ////////
     // Swing components.
     Font headerFont = new Font("Impact",Font.BOLD,35)
-    Font consoleFont = new Font("Courier New",Font.PLAIN,12)
+    Font consoleFont = new Font("Consolas",Font.PLAIN,12)
 
     Font categoryFont = new Font("Ariel",Font.BOLD,16)
     Font dataFont = new Font("Courier New",Font.PLAIN,14)

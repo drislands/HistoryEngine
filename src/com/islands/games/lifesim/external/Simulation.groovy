@@ -1,14 +1,16 @@
-package com.islands.games.lifesim
+package com.islands.games.lifesim.external
 
-import com.islands.games.lifesim.Time.Age
+import com.islands.games.lifesim.external.Time.Age
 import com.islands.games.lifesim.exceptions.UserQuittingException
-import com.islands.games.lifesim.life.Person
+import com.islands.games.lifesim.external.visual.GUIManager
+import com.islands.games.lifesim.external.visual.Printable
 import com.islands.games.lifesim.society.TribeManager
 
 /**
  * General class for starting and manipulating the Simulation.
  */
 class Simulation implements Printable {
+    static String  USER_PREFIX = '$'
     static boolean DEBUG = false
     static boolean USE_GUI = true
 
@@ -27,6 +29,7 @@ class Simulation implements Printable {
             'quit',
             'debug',
             'help',
+            'info',
             'now'
     ]
 
@@ -94,6 +97,7 @@ class Simulation implements Printable {
      */
     static boolean exec(String text) {
         DBG "entering exec"
+        println "$USER_PREFIX $text"
         // Split the text into words by spaces.
         def words = text.split(/ +/)
         // The first word is the command.
@@ -315,6 +319,45 @@ class Simulation implements Printable {
      */
     static void quit() {
         throw new UserQuittingException('User initiated quit')
+    }
+
+    /**
+     *
+     * @param words
+     */
+    static void info(List<String> details) {
+        def which = details.first().toLowerCase()
+
+        // TODO: what I'm envisioning is this:
+        //  * Call the info() method on the named object, get the Map it returns.
+        //  * Print out the type of thing: Tribe, Threat, etc.
+        //  * Print out the (instanceof String) objects in the Map with keys.
+        //  * For each ArrayList, indent and check if (instanceof Informable) -- if so, get info() and repeat.
+        //    * If not, just print as-is.
+        //  * For each Map in the root Map, indent and repeat.
+        switch(which) {
+            case "tribe":
+                // TODO: get the second word, use that as name, print the info() call on it.
+                break
+            case "threat":
+                // TODO: get the second word, use that as name, print the info() call on it.
+                break
+            case "threat-template":
+            case "template":
+                // TODO: get the second word, use that as name, print the info() call on it.
+                break
+            default:
+                // TODO: throw an error.
+                break
+        }
+    }
+
+    /**
+     *
+     * @param map
+     */
+    static void printInfo(Map map,int indentCount=0) {
+        // TODO: Define as above. To be used for the whole map recursively.
     }
 
     /**

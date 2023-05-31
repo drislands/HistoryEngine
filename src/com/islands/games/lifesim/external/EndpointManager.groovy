@@ -1,4 +1,4 @@
-package com.islands.games.lifesim
+package com.islands.games.lifesim.external
 
 import com.islands.games.lifesim.society.Tribe
 import com.islands.games.lifesim.society.TribeManager
@@ -12,6 +12,8 @@ class EndpointManager {
      * Gets initial details as given by the user. Takes a JSON payload and turns that into actual info.
      */
     static void setInitialDetails(Map payload /*JSON object with map details.*/) {
+        // TODO: there needs to be data validation before this method is called.
+        //       Or maybe right at the beginning of when it's called?
         // The payload will have a number of keyed elements, with array values.
         payload.tribes.each { Map t ->
             // Each tribe has a name, number of members, location.
@@ -21,9 +23,10 @@ class EndpointManager {
             T.addHandicaps(t.handicaps)
             // TODO: roll these into the addTribe() method
         }
+        // TODO: add each individual threat template, too.
         payload.threats.each { Map t ->
-            // Each threat has a name, location.
-            ThreatManager.addThreat(t.name,t.location)
+            // Each threat has a name, template, location.
+            ThreatManager.addThreat(t.name,t.template,t.location)
         }
         payload.resources.each { Map r ->
             // Each resource has a name, location.

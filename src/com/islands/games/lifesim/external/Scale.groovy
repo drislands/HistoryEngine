@@ -1,4 +1,4 @@
-package com.islands.games.lifesim
+package com.islands.games.lifesim.external
 
 /**
  * Enumeration representing the size of a thing.

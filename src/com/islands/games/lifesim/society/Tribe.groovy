@@ -1,9 +1,10 @@
 package com.islands.games.lifesim.society
 
-import com.islands.games.lifesim.Location
+import com.islands.games.lifesim.external.Informable
+import com.islands.games.lifesim.external.Location
 import com.islands.games.lifesim.life.Person
-import com.islands.games.lifesim.Simulation
-import com.islands.games.lifesim.Time
+import com.islands.games.lifesim.external.Simulation
+import com.islands.games.lifesim.external.Time
 import com.islands.games.lifesim.metaphysics.Advancement
 import com.islands.games.lifesim.metaphysics.AdvancementManager
 import com.islands.games.lifesim.metaphysics.Affinity
@@ -19,7 +20,7 @@ import groovy.transform.Canonical
 /**
  * Class representing a group of {@link Person}s that are socially linked.
  */
-class Tribe implements Serializable {
+class Tribe implements Serializable, Informable {
     // List of members of this Tribe.
     final ArrayList<Person> members = new ArrayList<>()
     // Name of the Tribe. Subject to change as the Tribe evolves.
@@ -46,9 +47,9 @@ class Tribe implements Serializable {
      * @param members Array of {@link Person}s making up the {@link #members} of this Tribe. Each Person has its
      * {@link Person#tribe} assigned to this Tribe.
      */
-    Tribe(String name,ArrayList<Person> members,double x,double y) {
+    Tribe(String name,ArrayList<Person> members,Location location) {
         historicalNames << new Name(Simulation.now.get(),name)
-        this.location = new Location(x,y)
+        this.location = location
         this.name = name
         for(member in members) {
             this.members.add(member)
@@ -108,6 +109,19 @@ class Tribe implements Serializable {
         // (x-180)^2 / (200 * 180)
         (0.01f) * Math.pow(p.age - monthsUpperBounds ,2) / (200 * monthsUpperBounds)
                                                        //     ^ 5% by 60/0, 15% by 90/0
+    }
+
+    Map info() {
+        [
+                name:name,
+                members:members,
+                historicalNames:historicalNames,
+                affinities:affinities,
+                handicaps:handicaps,
+                location:location,
+                birthrate:birthRate,
+                mortality:tribeMortality
+        ]
     }
 
     @Canonical

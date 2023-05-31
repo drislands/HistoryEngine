@@ -22,6 +22,7 @@ class Simulation implements Printable {
     // Time object tracking when "now" is.
     static Time now
     // List of valid commands that can be given in CLI mode.
+    // TODO: create a new Command class, with sub command info available, as well as printable help information.
     static def commands = [
             'make', 'create',
             'get', 'show',
